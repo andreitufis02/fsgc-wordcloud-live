@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#003399">
+  <link rel="icon" type="image/png" href="/assets/FSGC-06.png">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Word Cloud Live | Săptămâna Europeană</title>
+</head>
+<body class="presenter-page">
+  <div class="presenter-shell">
+    <aside class="control-rail" aria-label="Control sesiune">
+      <div class="brand-lockup">
+        <img src="/assets/FSGC-06.png" alt="FSGC">
+        <div>
+          <h1>Săptămâna Europeană</h1>
+          <p>Word cloud live pentru clasă</p>
+        </div>
+      </div>
+
+      <figure class="event-art">
+        <img src="/assets/saptamana-europeana-campaign.png" alt="Săptămâna Europeană">
+      </figure>
+
+      <section class="rail-section">
+        <p class="eyebrow">Intrare participanți</p>
+        <div class="qr-box">
+          <img id="qrImage" alt="Cod QR pentru participanți">
+          <div class="link-stack">
+            <a id="joinLink" href="/join" target="_blank" rel="noreferrer">/join</a>
+            <span>Scanează codul sau deschide linkul pe telefon. Răspunsurile apar live aici.</span>
+            <button id="copyJoinBtn" type="button">Copiază linkul</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="metric-grid" aria-label="Metrici sesiune">
+        <div class="metric">
+          <strong id="totalCount">0</strong>
+          <span>răspunsuri</span>
+        </div>
+        <div class="metric">
+          <strong id="uniqueCount">0</strong>
+          <span>cuvinte unice</span>
+        </div>
+        <div class="metric">
+          <strong id="clientCount">0</strong>
+          <span>dispozitive conectate</span>
+        </div>
+        <div class="metric">
+          <strong id="visibleCount">0</strong>
+          <span>afișate în cloud</span>
+        </div>
+      </section>
+
+      <section class="rail-section">
+        <p class="eyebrow">Top răspunsuri</p>
+        <ol class="top-list" id="topWords"></ol>
+      </section>
+    </aside>
+
+    <main class="stage-shell">
+      <header class="stage-bar">
+        <div class="stage-title">
+          <span class="status-pill" id="liveStatus">Live</span>
+          <h2>Care este primul cuvânt care îți vine în minte când auzi „Uniunea Europeană”?</h2>
+          <p class="status-line" id="statusLine">Aștept primele răspunsuri.</p>
+        </div>
+        <div class="stage-actions">
+          <a class="button ghost" href="/join" target="_blank" rel="noreferrer">Deschide telefon</a>
+          <a class="button ghost" href="/admin" target="_blank" rel="noreferrer">Admin</a>
+          <button id="exportCsvBtn" type="button">Export CSV</button>
+          <button id="fullscreenBtn" class="primary" type="button">Fullscreen</button>
+        </div>
+      </header>
+
+      <section class="cloud-stage" id="cloudStage" aria-label="Cloud colectiv">
+        <div class="cloud-watermark" aria-hidden="true">
+          <img src="/assets/shaping-albastru.png" alt="">
+        </div>
+        <svg id="cloudSvg" role="img" aria-label="Word cloud live"></svg>
+        <div class="empty-state" id="emptyCloud">
+          <div>
+            <strong>Word Cloud Live</strong>
+            <span>Răspunsurile intră de pe telefon și se așază automat în cloud.</span>
+          </div>
+        </div>
+        <div class="render-badge" id="renderBadge">Motor: d3-cloud, layout stabil</div>
+        <div class="overflow-dock" id="overflowDock" aria-label="Cuvinte suplimentare"></div>
+      </section>
+
+      <footer class="live-strip">
+        <ul class="recent-list" id="recentList" aria-label="Ultimele răspunsuri"></ul>
+        <p class="fineprint">Sesiunea salvează fiecare răspuns în <strong>data/responses.json</strong>. Cloudul afișează top 400 cuvinte unice, ca să rămână lizibil pe ecran.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/vendor/d3.min.js"></script>
+  <script src="/vendor/d3.layout.cloud.js"></script>
+  <script src="/presenter.js"></script>
+</body>
+</html>

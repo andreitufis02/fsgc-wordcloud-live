@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#003399">
+  <link rel="icon" type="image/png" href="/assets/FSGC-06.png">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Admin | Word Cloud Live</title>
+</head>
+<body class="admin-page">
+  <header class="admin-bar">
+    <div class="admin-title">
+      <img src="/assets/FSGC-06.png" alt="FSGC">
+      <div>
+        <h1>Admin Word Cloud</h1>
+        <p class="status-line" id="adminStatus">Conectare la sesiune...</p>
+      </div>
+    </div>
+    <div class="admin-actions">
+      <a class="button ghost" href="/" target="_blank" rel="noreferrer">Prezentare</a>
+      <a class="button ghost" href="/join" target="_blank" rel="noreferrer">Participant</a>
+      <button id="lockBtn" type="button">Pauză colectare</button>
+      <button id="seedBtn" type="button">Demo</button>
+      <button class="danger" id="clearBtn" type="button">Șterge tot</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-grid" aria-label="Metrici">
+      <div class="admin-stat">
+        <strong id="adminTotal">0</strong>
+        <span>răspunsuri totale</span>
+      </div>
+      <div class="admin-stat">
+        <strong id="adminUnique">0</strong>
+        <span>cuvinte unice</span>
+      </div>
+      <div class="admin-stat">
+        <strong id="adminClients">0</strong>
+        <span>dispozitive conectate</span>
+      </div>
+      <div class="admin-stat">
+        <strong id="adminTop">-</strong>
+        <span>cel mai frecvent</span>
+      </div>
+    </section>
+
+    <section class="admin-panel">
+      <header>
+        <div>
+          <p class="eyebrow">Export și moderare</p>
+          <h2>Răspunsuri recente</h2>
+        </div>
+        <div class="admin-actions">
+          <a class="button" href="/api/export.csv">CSV</a>
+          <a class="button" href="/api/export.json">JSON</a>
+        </div>
+      </header>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Cuvânt</th>
+              <th>Normalizat</th>
+              <th>Ora</th>
+              <th>Frecvență</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="entriesTable">
+            <tr><td class="empty-row" colspan="6">Nu există încă răspunsuri.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/admin.js"></script>
+</body>
+</html>

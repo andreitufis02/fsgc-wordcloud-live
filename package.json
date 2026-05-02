@@ -1,0 +1,21 @@
+{
+  "name": "fsgc-eu-wordcloud-live",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Live Mentimeter-style word cloud platform for Saptamana Europeana.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "d3-cloud": "^1.2.7",
+    "express": "^5.1.0",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.1"
+  }
+}

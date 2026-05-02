@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#003399">
+  <link rel="icon" type="image/png" href="/assets/FSGC-06.png">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Trimite răspuns | Word Cloud Live</title>
+</head>
+<body class="join-page">
+  <main class="join-shell">
+    <section class="join-hero" aria-label="Săptămâna Europeană">
+      <img src="/assets/saptamana-europeana-campaign.png" alt="Săptămâna Europeană">
+    </section>
+
+    <section class="join-panel">
+      <div class="brand-lockup">
+        <img src="/assets/FSGC-06.png" alt="FSGC">
+        <div>
+          <h2>Word Cloud Live</h2>
+          <p>Săptămâna Europeană</p>
+        </div>
+      </div>
+
+      <h1>Un cuvânt.</h1>
+      <p>Scrie primul cuvânt sau o expresie foarte scurtă care îți vine în minte când auzi „Uniunea Europeană”. Răspunsul este anonim.</p>
+
+      <form class="join-form" id="joinForm" autocomplete="off">
+        <input class="word-input" id="wordInput" maxlength="36" placeholder="ex: libertate" aria-label="Răspuns word cloud">
+        <button class="primary" id="submitBtn" type="submit">Trimite în cloud</button>
+        <div class="join-feedback" id="feedback" role="status" aria-live="polite">Conectare la sesiune...</div>
+      </form>
+
+      <div class="suggestions" id="suggestions" aria-label="Sugestii"></div>
+    </section>
+
+    <section class="join-stats">
+      <div class="metric">
+        <strong id="joinTotal">0</strong>
+        <span>răspunsuri</span>
+      </div>
+      <div class="metric">
+        <strong id="joinUnique">0</strong>
+        <span>cuvinte unice</span>
+      </div>
+      <div class="metric">
+        <strong id="joinTop">-</strong>
+        <span>cel mai frecvent</span>
+      </div>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/join.js"></script>
+</body>
+</html>
