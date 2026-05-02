@@ -62,3 +62,5 @@ Mount path pentru disk:
 ```text
 /var/data
 ```
+
+Dacă nu ai atașat încă disk-ul, nu seta `DATA_DIR`. Platforma va porni, dar răspunsurile pot fi temporare și se pot pierde la restart/redeploy.

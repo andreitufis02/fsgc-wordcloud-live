@@ -9,7 +9,7 @@
     "dev": "node server.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": "20.x"
   },
   "dependencies": {
     "d3": "^7.9.0",

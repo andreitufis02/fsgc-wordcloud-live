@@ -11,8 +11,7 @@ import { Server } from "socket.io";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PORT = Number(process.env.PORT || 3000);
-const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
-const DATA_FILE = path.join(DATA_DIR, "responses.json");
+const REQUESTED_DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
 const PUBLIC_DIR = path.join(__dirname, "public");
 const MAX_VISIBLE_WORDS = 400;
 const MAX_RECENT_ENTRIES = 250;
@@ -29,6 +28,8 @@ const io = new Server(server, {
 let entries = [];
 let locked = false;
 let saveQueue = Promise.resolve();
+let dataDir = REQUESTED_DATA_DIR;
+let dataFile = path.join(dataDir, "responses.json");
 const configCache = new Map();
 
 const demoWords = [
@@ -187,9 +188,9 @@ async function addSubmission(value) {
 }
 
 async function initData() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
+  await prepareDataStore();
   try {
-    const raw = await fs.readFile(DATA_FILE, "utf8");
+    const raw = await fs.readFile(dataFile, "utf8");
     const parsed = JSON.parse(raw);
     entries = Array.isArray(parsed)
       ? parsed.filter((entry) => entry && entry.word && entry.normalized && entry.createdAt)
@@ -201,13 +202,40 @@ async function initData() {
   }
 }
 
+async function prepareDataStore() {
+  try {
+    await ensureWritableDataDir(REQUESTED_DATA_DIR);
+    dataDir = REQUESTED_DATA_DIR;
+  } catch (error) {
+    if (!process.env.DATA_DIR) throw error;
+
+    const fallbackDir = path.join(os.tmpdir(), "fsgc-wordcloud-live");
+    console.warn(
+      `DATA_DIR "${REQUESTED_DATA_DIR}" is not writable (${error.code || error.message}). ` +
+      `Falling back to temporary storage at "${fallbackDir}".`
+    );
+    await ensureWritableDataDir(fallbackDir);
+    dataDir = fallbackDir;
+  }
+
+  dataFile = path.join(dataDir, "responses.json");
+  console.log(`Using response storage: ${dataFile}`);
+}
+
+async function ensureWritableDataDir(dir) {
+  await fs.mkdir(dir, { recursive: true });
+  const testFile = path.join(dir, `.write-test-${process.pid}`);
+  await fs.writeFile(testFile, "ok", "utf8");
+  await fs.rm(testFile, { force: true });
+}
+
 function persistEntries() {
   const payload = JSON.stringify(entries, null, 2);
-  const tempFile = `${DATA_FILE}.tmp`;
+  const tempFile = `${dataFile}.tmp`;
   saveQueue = saveQueue
     .then(async () => {
       await fs.writeFile(tempFile, payload, "utf8");
-      await fs.rename(tempFile, DATA_FILE);
+      await fs.rename(tempFile, dataFile);
     })
     .catch((error) => {
       console.error("Could not persist responses:", error);
